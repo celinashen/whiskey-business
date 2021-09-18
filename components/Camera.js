@@ -9,6 +9,7 @@ import { Button } from 'react-native-paper';
 
 import { takePictureAsync } from 'expo-camera'
 
+import CameraPreview from './CameraPreview'
 
 const styles = StyleSheet.create({
     container: {
@@ -34,7 +35,9 @@ const AppCamera = () => {
 
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
-    const [cameraRef, setCameraRef] = useState(null)
+    const [cameraRef, setCameraRef] = useState(null);
+    const [previewVisible, setPreviewVisible] = useState(false)
+    const [capturedImage, setCapturedImage] = useState(null)
 
     const dimensions = useRef(Dimensions.get("window"));
     const screenWidth = dimensions.current.width;
@@ -60,49 +63,65 @@ const AppCamera = () => {
             const options = {quality: 1, base64: true};
             // const data = await takePictureAsync(options);
             let photo = await cameraRef.takePictureAsync();
-            console.log(photo)
+            console.log("reached here")
+            setPreviewVisible(true)
+            setCapturedImage(photo)
             // console.log(data);
+            console.log("set photo")
         }
     };
 
     
     return (
+        
         <View
         style={{
             flexDirection: 'column',
             padding: 20,
         }}>
-        <View>
-            <Camera 
-            style={styles.camera} 
-            style = {{height: height, width: screenWidth}} 
-            type={type} 
-            ratio = "8:3"
-            ref={ref => {
-                setCameraRef(ref);
-            }}
-            autoFocus="on"
-            >
-           
-           </Camera>
-        </View>
+            { previewVisible && capturedImage ? 
+            ( 
+            <View style = {{height: height, width: screenWidth}} >
+                <CameraPreview photo={capturedImage} />
+                <Button backgroundColor = "red"/>
+            </View>
+                
+            
+            ): 
+            (
+                <View>
+                    <View>
+                        <Camera 
+                        style={styles.camera} 
+                        style = {{height: height, width: screenWidth}} 
+                        type={type} 
+                        ratio = "8:3"
+                        ref={ref => {
+                            setCameraRef(ref);
+                        }}
+                        autoFocus="on"
+                        />
+                    </View>
 
-        <View>
-            <Button mode="contained" onPress={() =>{
-                console.log("hello")
-                setType(
-                    type === Camera.Constants.Type.back
-                        ? Camera.Constants.Type.front
-                        : Camera.Constants.Type.back
-                    );
-            }}>
-                Flip
-            </Button>
+                    <View>
+                        <Button mode="contained" onPress={() =>{
+                            console.log("hello")
+                            setType(
+                                type === Camera.Constants.Type.back
+                                    ? Camera.Constants.Type.front
+                                    : Camera.Constants.Type.back
+                                );
+                        }}>
+                            Flip
+                        </Button>
 
-            <Button mode="contained" style = {{ marginTop: "1%"}} onPress={() => takePicture()} >
-                snapshot
-            </Button>
-        </View>
+                        <Button mode="contained" style = {{ marginTop: "1%"}} onPress={() => takePicture()} >
+                            snapshot
+                        </Button>
+                    </View>
+                </View>
+            )}
+        
 
         </View>
         );
