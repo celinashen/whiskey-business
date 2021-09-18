@@ -5,6 +5,8 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import { Dimensions } from "react-native";
 
+import { Button } from 'react-native-paper';
+
 
 const styles = StyleSheet.create({
     container: {
@@ -52,21 +54,43 @@ const AppCamera = () => {
 
     
     return (
-        <Camera style={styles.camera} style = {{height: height, width: "100%"}} type={type} ratio = "16:9">
-            <View style={styles.buttonContainer}>
-                {/* <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                    setType(
+        <View
+        style={{
+            flexDirection: 'column',
+            padding: 20,
+        }}>
+        <View>
+            <Camera style={styles.camera} style = {{height: height, width: screenWidth}} type={type} ratio = "16:9">
+           
+           </Camera>
+        </View>
+
+        <View>
+            <Button mode="contained" onPress={() =>{
+                setType(
                     type === Camera.Constants.Type.back
                         ? Camera.Constants.Type.front
                         : Camera.Constants.Type.back
                     );
-                }}>
+            }}>
+                Flip
+            </Button>
+
+
+            {/* <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+                setType(
+                type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+            }}>
                 <Text style={styles.text}> Flip </Text>
-                </TouchableOpacity> */}
-            </View>
-        </Camera>
+            </TouchableOpacity> */}
+        </View>
+
+        </View>
         );
   }
 
