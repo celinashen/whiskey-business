@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+
+import AppCamera from './components/Camera'
+
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Text>Whiskey Business app is live !!</Text>
-      
+      <AppCamera />
       <StatusBar style="auto" />
     </View>
   );
