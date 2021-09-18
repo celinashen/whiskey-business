@@ -7,6 +7,8 @@ import { Dimensions } from "react-native";
 
 import { Button } from 'react-native-paper';
 
+import { takePictureAsync } from 'expo-camera'
+
 
 const styles = StyleSheet.create({
     container: {
@@ -32,10 +34,11 @@ const AppCamera = () => {
 
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
+    const [cameraRef, setCameraRef] = useState(null)
 
     const dimensions = useRef(Dimensions.get("window"));
     const screenWidth = dimensions.current.width;
-    const height = Math.round((screenWidth * 16) / 9);
+    const height = Math.round((screenWidth * 16) / 12);
 
     useEffect(() => {
         (async () => {
@@ -51,6 +54,16 @@ const AppCamera = () => {
         return <Text>No access to camera</Text>;
     }
 
+    const takePicture = async () => {
+        console.log("take pic")
+        if (cameraRef) {
+            const options = {quality: 1, base64: true};
+            // const data = await takePictureAsync(options);
+            let photo = await cameraRef.takePictureAsync();
+            console.log(photo)
+            // console.log(data);
+        }
+    };
 
     
     return (
@@ -60,13 +73,23 @@ const AppCamera = () => {
             padding: 20,
         }}>
         <View>
-            <Camera style={styles.camera} style = {{height: height, width: screenWidth}} type={type} ratio = "16:9">
+            <Camera 
+            style={styles.camera} 
+            style = {{height: height, width: screenWidth}} 
+            type={type} 
+            ratio = "8:3"
+            ref={ref => {
+                setCameraRef(ref);
+            }}
+            autoFocus="on"
+            >
            
            </Camera>
         </View>
 
         <View>
             <Button mode="contained" onPress={() =>{
+                console.log("hello")
                 setType(
                     type === Camera.Constants.Type.back
                         ? Camera.Constants.Type.front
@@ -75,6 +98,18 @@ const AppCamera = () => {
             }}>
                 Flip
             </Button>
+
+            <Button mode="contained" style = {{ marginTop: "1%"}} onPress={() => takePicture()} >
+                snapshot
+            </Button>
+        </View>
+
+        </View>
+        );
+  }
+
+export default AppCamera
+
 
 
             {/* <TouchableOpacity
@@ -88,10 +123,3 @@ const AppCamera = () => {
             }}>
                 <Text style={styles.text}> Flip </Text>
             </TouchableOpacity> */}
-        </View>
-
-        </View>
-        );
-  }
-
-export default AppCamera
