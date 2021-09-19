@@ -14,8 +14,18 @@ import { getStorage, ref, uploadBytesResumable } from "firebase/storage"
 const uploadImage = async(uri) => {
   const response = await fetch(uri);
   const blob = await response.blob();
-  var ref = firebase.storage().ref().child("uploads/" + uri);
+  var ref = firebase.storage().ref().child("uploads/" + makeid(10));
   return ref.put(blob);
+}
+
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+  return result;
 }
 
 const CameraPreview = ({photo}) => {
@@ -27,7 +37,6 @@ const CameraPreview = ({photo}) => {
     // const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadImage(photo.uri)
-    
 
     return (
       <View
