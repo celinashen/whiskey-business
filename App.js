@@ -10,7 +10,9 @@ import Scanner from './components/Scanner'
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style = {{marginTop: "20%"}}>Whiskey Business app is live !!</Text>
+      <Text style = {{marginTop: "20%"}}>
+        WHISKEY BUSINESS
+      </Text>
       <AppCamera />
       <StatusBar style="auto" />
     </View>

@@ -46,6 +46,7 @@ const CameraPreview = ({photo}) => {
     
     const [photoId, setPhotoId] = useState("");
     const [photoURL, setPhotoURL] = useState("");
+    const [resJSON, setResJSON] = useState(null);
 
     // const storage = getStorage();
     // const snapshotRef = ref(storage, photo);
@@ -103,6 +104,7 @@ const CameraPreview = ({photo}) => {
           }
         );
         let responseJson = await response.json();
+        setResJSON(responseJson)
         console.log("response:", responseJson);
         // this.setState({
         // 	googleResponse: responseJson,
@@ -116,23 +118,37 @@ const CameraPreview = ({photo}) => {
     return (
       <View
         style={{
-          backgroundColor: 'red',
+          backgroundColor: 'white',
           flex: 1,
           width: '100%',
           height: '100%'
         }}
       >
+
+        {resJSON != null ? 
+        (
+          console.log("TRUE")
+        ) :
+          (
+            console.log("FALSE")
+          )
+        }
+
         <ImageBackground
           source={{uri: photo && photo.uri}}
           style={{
             flex: 1
           }}
-        />
-          <Button
-            style={{ marginBottom: 10 }}
-            onPress={() => submitToGoogle(photo)}
-            title="Analyze!"
           />
+        <Button
+        style={{ marginBottom: 10 }}
+        onPress={() => submitToGoogle(photo)}
+        >
+          Analyze
+        </Button>
+
+
+        
       </View>
     )
   }
