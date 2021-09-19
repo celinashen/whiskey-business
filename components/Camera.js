@@ -11,6 +11,7 @@ import { takePictureAsync } from 'expo-camera'
 
 import CameraPreview from './CameraPreview'
 
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
