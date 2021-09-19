@@ -18,6 +18,7 @@ import { Button } from 'react-native-paper';
 
 
 
+
 const uploadImage = async(uri) => {
   const response = await fetch(uri);
   const blob = await response.blob();
@@ -47,8 +48,8 @@ const CameraPreview = ({photo}) => {
     const [photoId, setPhotoId] = useState("");
     const [photoURL, setPhotoURL] = useState("");
     const [resJSON, setResJSON] = useState(null);
+    const [logosArray, setLogosArray] = useState([])
 
-    var logosArray = []
     // const storage = getStorage();
     // const snapshotRef = ref(storage, photo);
     // const snapshotRemoteRef = ref(storage, photo);
@@ -106,12 +107,13 @@ const CameraPreview = ({photo}) => {
         );
         let responseJson = await response.json();
 
-        
+          var outputArray = []
 
         responseJson["responses"][0]["logoAnnotations"].map((logoObject) => {
-          logosArray.push(logoObject["description"]);
-          console.log(logosArray);
-          return logosArray;
+          outputArray.push(logoObject["description"]);
+          console.log(outputArray);
+          setLogosArray(outputArray);
+          return outputArray;
         });
 
       } catch (error) {
@@ -137,9 +139,18 @@ const CameraPreview = ({photo}) => {
         <Button
         style={{ marginBottom: 10 }}
         onPress={() => submitToGoogle(photo)}
+        
         >
-          Analyze
+          Analyzer
         </Button>
+
+        <Text style={{ marginBottom: 50, alignContent: "center", display: "flex", justifyContent: "center", flexDirection: "row" }}>
+          {logosArray.map((item,index) => 
+              <Text key={index}>{item}</Text>
+              // console.log(item)
+          )}
+          <Button></Button>
+        </Text>
 
 
         
