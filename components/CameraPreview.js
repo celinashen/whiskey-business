@@ -48,6 +48,7 @@ const CameraPreview = ({photo}) => {
     const [photoURL, setPhotoURL] = useState("");
     const [resJSON, setResJSON] = useState(null);
 
+    var logosArray = []
     // const storage = getStorage();
     // const snapshotRef = ref(storage, photo);
     // const snapshotRemoteRef = ref(storage, photo);
@@ -104,12 +105,15 @@ const CameraPreview = ({photo}) => {
           }
         );
         let responseJson = await response.json();
-        setResJSON(responseJson)
-        console.log("response:", responseJson);
-        // this.setState({
-        // 	googleResponse: responseJson,
-        // 	uploading: false
-        // });
+
+        
+
+        responseJson["responses"][0]["logoAnnotations"].map((logoObject) => {
+          logosArray.push(logoObject["description"]);
+          console.log(logosArray);
+          return logosArray;
+        });
+
       } catch (error) {
         console.log(error);
       }
@@ -124,16 +128,6 @@ const CameraPreview = ({photo}) => {
           height: '100%'
         }}
       >
-
-        {resJSON != null ? 
-        (
-          console.log("TRUE")
-        ) :
-          (
-            console.log("FALSE")
-          )
-        }
-
         <ImageBackground
           source={{uri: photo && photo.uri}}
           style={{
