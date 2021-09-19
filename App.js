@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import AppCamera from './components/Camera'
+import Scanner from './components/Scanner'
 
 
 export default function App() {
@@ -24,3 +25,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+//key = AIzaSyAekpObrtDPPrvY6GKzt2RD9GjBPOPSdS4
