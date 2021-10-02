@@ -145,15 +145,13 @@ const CameraPreview = ({photo}) => {
         </Button>
 
         <Text style={{ marginBottom: 50, alignContent: "center", display: "flex", justifyContent: "center", flexDirection: "row" }}>
-          {logosArray.map((item,index) => 
+          {
+          logosArray.map((item,index) => 
               <Text key={index}>{item}</Text>
               // console.log(item)
           )}
           <Button></Button>
         </Text>
-
-
-        
       </View>
     )
   }
